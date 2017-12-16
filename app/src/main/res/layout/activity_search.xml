@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="app.movie.tutorial.com.activity.SearchActivity">
+    <EditText android:id="@+id/SearchText"
+        android:width="220dp"
+        app:layout_constraintTop_toBottomOf="parent"
+        android:layout_height="wrap_content"
+        android:layout_width="400dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="40dp"/>
+    <Button
+        android:id="@+id/button"
+        android:layout_marginEnd="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
+        android:width="220dp"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:text="@string/search_name"
+        android:onClick="ExecuteSearch"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SearchText"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1" />
+</android.support.constraint.ConstraintLayout>

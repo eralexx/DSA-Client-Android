@@ -1,10 +1,16 @@
 package app.movie.tutorial.com.activity;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import java.util.List;
 
@@ -29,13 +35,14 @@ public class MainActivity extends AppCompatActivity{
     private RecyclerView recyclerView = null;
 
     // insert your themoviedb.org API KEY here
-    private final static String API_KEY = "PUT_YOUR_API KEY";
+    private final static String API_KEY = "1b806865a8feb915157882d555f4dcb1";
+    String query= "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        query = getIntent().getStringExtra("GET_SEARCH_QUERY");
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -57,11 +64,13 @@ public class MainActivity extends AppCompatActivity{
 
         MovieApiService movieApiService = retrofit.create(MovieApiService.class);
 
-        Call<MovieResponse> call = movieApiService.getTopRatedMovies(API_KEY);
+        Call<MovieResponse> call = movieApiService.getMovieSearch(query,API_KEY);
         call.enqueue(new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
                 List<Movie> movies = response.body().getResults();
+                ProgressBar progBar   = (ProgressBar)findViewById(R.id.progressBar1);
+                progBar.setVisibility(View.GONE);
                 recyclerView.setAdapter(new MoviesAdapter(movies, R.layout.list_item_movie, getApplicationContext()));
                 Log.d(TAG, "Number of movies received: " + movies.size());
 
