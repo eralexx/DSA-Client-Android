@@ -4,13 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="app.movie.tutorial.com.activity.MainActivity">
+    tools:context="app.movie.tutorial.com.activity.MainActivity"
+    android:id="@+id/layout"
+    android:orientation="vertical"
+    android:layout_gravity="center_vertical">
     <ProgressBar
         android:id="@+id/progressBar1"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true" />
+        android:paddingTop="80dp"
+        android:paddingLeft="120dp"
+        android:gravity="center_horizontal"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:scrollbars="vertical"

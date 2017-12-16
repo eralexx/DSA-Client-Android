@@ -1,5 +1,6 @@
 package app.movie.tutorial.com.activity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
@@ -9,8 +10,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -61,7 +64,6 @@ public class MainActivity extends AppCompatActivity{
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
-
         MovieApiService movieApiService = retrofit.create(MovieApiService.class);
 
         Call<MovieResponse> call = movieApiService.getMovieSearch(query,API_KEY);
@@ -71,8 +73,13 @@ public class MainActivity extends AppCompatActivity{
                 List<Movie> movies = response.body().getResults();
                 ProgressBar progBar   = (ProgressBar)findViewById(R.id.progressBar1);
                 progBar.setVisibility(View.GONE);
-                recyclerView.setAdapter(new MoviesAdapter(movies, R.layout.list_item_movie, getApplicationContext()));
-                Log.d(TAG, "Number of movies received: " + movies.size());
+                if (movies.size()==0) {
+                    NoMoviesFound();
+                }
+                else {
+                    recyclerView.setAdapter(new MoviesAdapter(movies, R.layout.list_item_movie, getApplicationContext()));
+                    Log.d(TAG, "Number of movies received: " + movies.size());
+                }
 
             }
 
@@ -80,6 +87,24 @@ public class MainActivity extends AppCompatActivity{
             public void onFailure(Call<MovieResponse> call, Throwable throwable) {
                 Log.e(TAG, throwable.toString());
             }
+            private void NoMoviesFound(){
+                showAlertDialog();
+            }
+            public void showAlertDialog() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Warning");
+                builder.setMessage("No movies were found.");
+                builder.setPositiveButton("OK", null);
+                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        finish();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+
         });
     }
 }
