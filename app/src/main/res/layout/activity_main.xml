@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="app.movie.tutorial.com.activity.MainActivity"
     android:id="@+id/layout"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
     android:orientation="vertical"
     android:layout_gravity="center_vertical">
     <ProgressBar
@@ -16,10 +19,58 @@
         android:paddingTop="80dp"
         android:paddingLeft="120dp"
         android:gravity="center_horizontal"/>
+
+    <ImageView
+        android:id="@+id/user_image"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:paddingRight="16dp"
+        android:paddingBottom="16dp"
+        />
+
+    <TextView
+        android:id="@+id/repositories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="40dp"
+        android:paddingTop="20dp"
+        android:layout_toRightOf="@+id/user_image"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/colorBlack"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/following"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="40dp"
+        android:paddingTop="16dp"
+        android:layout_below="@+id/repositories"
+        android:layout_toRightOf="@+id/user_image"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/colorBlack"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/followers"
+        android:layout_below="@+id/user_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:gravity="center_horizontal"
+        android:text="@string/followers"
+        android:background="@drawable/back"
+        android:textColor="@color/colorBlack"
+        android:textSize="20sp" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
+        android:layout_below="@+id/followers"
         android:scrollbars="vertical"
+        android:paddingTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-</LinearLayout>
+</RelativeLayout>

@@ -9,65 +9,65 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import app.movie.tutorial.com.R;
-import app.movie.tutorial.com.model.Movie;
-import com.squareup.picasso.Picasso;
+import app.movie.tutorial.com.model.GitHubUserResponse;
 
-/**
- * Created by Gino Osahon on 14/03/2017.
- */
-public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> {
 
-    private List<Movie> movies;
+
+public class GitHubFollowersAdapter extends RecyclerView.Adapter<GitHubFollowersAdapter.FollowerViewHolder> {
+
+    private List<GitHubUserResponse> followers;
     private int rowLayout;
     private Context context;
-    public static final String IMAGE_URL_BASE_PATH="http://image.tmdb.org/t/p/w342//";
+    public static final String IMAGE_URL_BASE_PATH="";
 
-    public MoviesAdapter(List<Movie> movies, int rowLayout, Context context) {
-        this.movies = movies;
+    public GitHubFollowersAdapter(List<GitHubUserResponse> followers, int rowLayout, Context context) {
+        this.followers = followers;
         this.rowLayout = rowLayout;
         this.context = context;
     }
 
     //A view holder inner class where we get reference to the views in the layout using their ID
 
-    public static class MovieViewHolder extends RecyclerView.ViewHolder {
+    public static class FollowerViewHolder extends RecyclerView.ViewHolder {
         LinearLayout moviesLayout;
-        TextView movieTitle;
-        ImageView movieImage;
+        TextView userName;
+        ImageView userImage;
 
-        public MovieViewHolder(View v) {
+        public FollowerViewHolder(View v) {
             super(v);
             moviesLayout = (LinearLayout) v.findViewById(R.id.movies_layout);
-            movieImage = (ImageView) v.findViewById(R.id.movie_image);
-            movieTitle = (TextView) v.findViewById(R.id.title);
+            userImage = (ImageView) v.findViewById(R.id.movie_image);
+            userName = (TextView) v.findViewById(R.id.title);
         }
     }
 
 
     @Override
-    public MoviesAdapter.MovieViewHolder onCreateViewHolder(ViewGroup parent,
+    public GitHubFollowersAdapter.FollowerViewHolder onCreateViewHolder(ViewGroup parent,
                                                             int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(rowLayout, parent, false);
-        return new MovieViewHolder(view);
+        return new FollowerViewHolder(view);
 
     }
 
     @Override
-    public void onBindViewHolder(MovieViewHolder holder, final int position) {
-        String image_url = IMAGE_URL_BASE_PATH + movies.get(position).getPosterPath();
+    public void onBindViewHolder(FollowerViewHolder holder, final int position) {
+        String image_url = IMAGE_URL_BASE_PATH + followers.get(position).getAvatar_url();
         Picasso.with(context)
                 .load(image_url)
                 .placeholder(android.R.drawable.sym_def_app_icon)
                 .error(android.R.drawable.sym_def_app_icon)
-                .into(holder.movieImage);
-        holder.movieTitle.setText(movies.get(position).getTitle());
+                .into(holder.userImage);
+        holder.userName.setText(followers.get(position).getLogin());
     }
 
     @Override
     public int getItemCount() {
-        return movies.size();
+        return followers.size();
     }
 }

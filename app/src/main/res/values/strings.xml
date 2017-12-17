@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">Movie App</string>
-    <string name="search_name">Search</string>
+    <string name="app_name">GitHub Followers</string>
+    <string name="search_name">EXPLORE FOLLOWERS</string>
+    <string name="followers">FOLLOWERS</string>
 </resources>

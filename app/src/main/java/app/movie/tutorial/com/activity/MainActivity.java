@@ -1,27 +1,24 @@
 package app.movie.tutorial.com.activity;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import app.movie.tutorial.com.R;
-import app.movie.tutorial.com.adapter.MoviesAdapter;
-import app.movie.tutorial.com.model.Movie;
-import app.movie.tutorial.com.model.MovieResponse;
-import app.movie.tutorial.com.rest.MovieApiService;
+import app.movie.tutorial.com.adapter.GitHubFollowersAdapter;
+import app.movie.tutorial.com.model.GitHubUserResponse;
+import app.movie.tutorial.com.rest.GitHubApiService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,11 +30,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity{
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    public static final String BASE_URL = "http://api.themoviedb.org/3/";
+    public static final String BASE_URL = "https://api.github.com/";
     private static Retrofit retrofit = null;
     private RecyclerView recyclerView = null;
 
-    // insert your themoviedb.org API KEY here
     private final static String API_KEY = "1b806865a8feb915157882d555f4dcb1";
     String query= "";
 
@@ -64,47 +60,78 @@ public class MainActivity extends AppCompatActivity{
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
-        MovieApiService movieApiService = retrofit.create(MovieApiService.class);
+        GitHubApiService gitHubApiService = retrofit.create(GitHubApiService.class);
 
-        Call<MovieResponse> call = movieApiService.getMovieSearch(query,API_KEY);
-        call.enqueue(new Callback<MovieResponse>() {
+        Call<GitHubUserResponse> call = gitHubApiService.getUser(query);
+        call.enqueue(new Callback<GitHubUserResponse>() {
             @Override
-            public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
-                List<Movie> movies = response.body().getResults();
-                ProgressBar progBar   = (ProgressBar)findViewById(R.id.progressBar1);
-                progBar.setVisibility(View.GONE);
-                if (movies.size()==0) {
-                    NoMoviesFound();
-                }
-                else {
-                    recyclerView.setAdapter(new MoviesAdapter(movies, R.layout.list_item_movie, getApplicationContext()));
-                    Log.d(TAG, "Number of movies received: " + movies.size());
-                }
+            public void onResponse(Call<GitHubUserResponse> call, Response<GitHubUserResponse> response) {
+                try {
+                    String avatar_url = response.body().getAvatar_url();
+                    String login = response.body().getLogin();
+                    int repos = response.body().getPublic_repos();
+                    int following = response.body().getFollowing();
 
-            }
-
-            @Override
-            public void onFailure(Call<MovieResponse> call, Throwable throwable) {
-                Log.e(TAG, throwable.toString());
-            }
-            private void NoMoviesFound(){
-                showAlertDialog();
-            }
-            public void showAlertDialog() {
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("Warning");
-                builder.setMessage("No movies were found.");
-                builder.setPositiveButton("OK", null);
-                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        finish();
+                    if (login.isEmpty()) {
+                        showAlertDialog("Warning","User not found");
+                    } else {
+                        ImageView avatar = (ImageView) findViewById(R.id.user_image);
+                        Picasso.with(getApplicationContext()).load(avatar_url).into(avatar);
+                        TextView tv1 = (TextView) findViewById(R.id.repositories);
+                        tv1.setText("Repositories: " + repos);
+                        TextView tv2 = (TextView) findViewById(R.id.following);
+                        tv2.setText("Following: " + following);
                     }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                }
+                catch(Exception ex){
+                    showAlertDialog("Warning","Search error.");
+
+                }
+            }
+            @Override
+            public void onFailure(Call<GitHubUserResponse> call, Throwable throwable) {
+                showAlertDialog("Warning","Conectivity error.");
+                finish();
+            }
+        });
+
+        Call<List<GitHubUserResponse>> call2 = gitHubApiService.getUserFollowers(query);
+        call2.enqueue(new Callback<List<GitHubUserResponse>>() {
+            @Override
+            public void onResponse(Call<List<GitHubUserResponse>> call, Response<List<GitHubUserResponse>> response) {
+                try {
+                    ProgressBar progBar = (ProgressBar) findViewById(R.id.progressBar1);
+                    progBar.setVisibility(View.GONE);
+
+                    if (response.body().size() > 0) {
+                        recyclerView.setAdapter(new GitHubFollowersAdapter(response.body(), R.layout.list_item_movie, getApplicationContext()));
+                    }
+                }
+                catch(Exception ex){
+                    showAlertDialog("Warning","Search error.");
+                }
+            }
+            @Override
+            public void onFailure(Call<List<GitHubUserResponse>> call, Throwable throwable) {
+                showAlertDialog("Warning","Conectivity error.");
+                finish();
             }
 
         });
+
+    }
+    public void showAlertDialog(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setPositiveButton("OK", null);
+        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                finish();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
