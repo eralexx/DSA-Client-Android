@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name">GitHub Followers</string>
-    <string name="search_name">EXPLORE FOLLOWERS</string>
-    <string name="followers">FOLLOWERS</string>
+    <string name="app_name">The Maze Game</string>
+    <string name="search_name">Login</string>
+    <string name="password">Password</string>
+    <string name="user">User</string>
+    <string name="the_maze_game">The Maze Game</string>
+    <string name="game_history">Game History</string>
 </resources>

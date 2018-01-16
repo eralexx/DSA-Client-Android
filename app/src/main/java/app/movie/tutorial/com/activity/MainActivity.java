@@ -1,11 +1,10 @@
 package app.movie.tutorial.com.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -13,12 +12,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
-
 import app.movie.tutorial.com.R;
-import app.movie.tutorial.com.adapter.GitHubFollowersAdapter;
 import app.movie.tutorial.com.model.GitHubUserResponse;
-import app.movie.tutorial.com.rest.GitHubApiService;
+import app.movie.tutorial.com.rest.ApiService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -29,40 +25,34 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity{
 
-    private static final String TAG = MainActivity.class.getSimpleName();
     public static final String BASE_URL = "https://api.github.com/";
     private static Retrofit retrofit = null;
-    private RecyclerView recyclerView = null;
 
     private final static String API_KEY = "1b806865a8feb915157882d555f4dcb1";
-    String query= "";
+    String query= "ad";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        query = getIntent().getStringExtra("GET_SEARCH_QUERY");
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        query = getIntent().getStringExtra("Username");
+        //recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        //recyclerView.setHasFixedSize(true);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
         connectAndGetApiData();
-
     }
-
     // This method create an instance of Retrofit
     // set the base url
     public void connectAndGetApiData(){
-
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
-        GitHubApiService gitHubApiService = retrofit.create(GitHubApiService.class);
+        ApiService ApiService = retrofit.create(ApiService.class);
 
-        Call<GitHubUserResponse> call = gitHubApiService.getUser(query);
+        Call<GitHubUserResponse> call = ApiService.getUser(query);
         call.enqueue(new Callback<GitHubUserResponse>() {
             @Override
             public void onResponse(Call<GitHubUserResponse> call, Response<GitHubUserResponse> response) {
@@ -71,7 +61,8 @@ public class MainActivity extends AppCompatActivity{
                     String login = response.body().getLogin();
                     int repos = response.body().getPublic_repos();
                     int following = response.body().getFollowing();
-
+                    ProgressBar progBar = (ProgressBar) findViewById(R.id.progressBar1);
+                    progBar.setVisibility(View.GONE);
                     if (login.isEmpty()) {
                         showAlertDialog("Warning","User not found");
                     } else {
@@ -95,7 +86,7 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
-        Call<List<GitHubUserResponse>> call2 = gitHubApiService.getUserFollowers(query);
+       /* Call<List<GitHubUserResponse>> call2 = gitHubApiService.getUserFollowers(query);
         call2.enqueue(new Callback<List<GitHubUserResponse>>() {
             @Override
             public void onResponse(Call<List<GitHubUserResponse>> call, Response<List<GitHubUserResponse>> response) {
@@ -117,8 +108,13 @@ public class MainActivity extends AppCompatActivity{
                 finish();
             }
 
-        });
+        });*/
+    }
+    public void GameHistory(View view) {
 
+        Intent intent = new Intent(getBaseContext(), GameHistoryActivity.class);
+        intent.putExtra("Username", query);
+        startActivity(intent);
     }
     public void showAlertDialog(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
