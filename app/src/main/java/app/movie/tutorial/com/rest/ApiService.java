@@ -12,7 +12,7 @@ public interface ApiService {
     @GET("users/{username}")
     Call<GitHubUserResponse> getUser(@Path("username") String username);
 
-    @GET("/UserManagement/Login/{EmailOrUsername}/{Password}")
+    @GET("UserManagement/Login/{EmailOrUsername}/{Password}")
     Call<Integer> Login(@Path("EmailOrUsername") String Email, @Path("Password") String Password);
 
     @GET("users/{username}/followers")

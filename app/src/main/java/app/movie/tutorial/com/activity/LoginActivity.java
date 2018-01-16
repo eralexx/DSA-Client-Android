@@ -55,11 +55,12 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<Integer> call, Response<Integer> response) {
                     try {
+                        Log.i("response", String.valueOf(response));
                         Log.i("responsebody:    ",String.valueOf(response.body()));
                         int loginCheck = response.body() != null ? response.body().intValue() : -1;
                         Log.i("logincheck:    ",String.valueOf(loginCheck));
                         if (loginCheck == -1) {
-                            showAlertDialog("Warning", "User not found");
+                                showAlertDialog("Warning", "User not found");
                         } else {
                             Intent intent = new Intent(getBaseContext(), MainActivity.class);
                             intent.putExtra("userEmail", mUser.getText().toString());
