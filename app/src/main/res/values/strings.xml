@@ -5,4 +5,7 @@
     <string name="user">User</string>
     <string name="the_maze_game">The Maze Game</string>
     <string name="game_history">Game History</string>
+    <string name="welcome_back_to_the_maze">Welcome back to the maze!</string>
+    <string name="find_new_game">Find new game</string>
+    <string name="profile">Profile</string>
 </resources>
