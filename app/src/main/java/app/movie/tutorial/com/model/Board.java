@@ -20,8 +20,12 @@ public class Board {
     @SerializedName("users")
     private List<User> Users;
 
-    @SerializedName("cells")
+    @SerializedName("asd")
     private Cell[][] Cells;
+
+    @SerializedName("cells")
+    private CellAdapter[] AndroidCells;
+
 
     @SerializedName("positions")
     private List<Cell> Positions;
@@ -38,7 +42,29 @@ public class Board {
         return null;
     }
 
+    public int getSizeY() {
+        return sizeY;
+    }
 
+    public void setSizeY(int sizeY) {
+        this.sizeY = sizeY;
+    }
+
+    public int getSizeX() {
+        return sizeX;
+    }
+
+    public void setSizeX(int sizeX) {
+        this.sizeX = sizeX;
+    }
+
+    public CellAdapter[] getAndroidCells() {
+        return AndroidCells;
+    }
+
+    public void setAndroidCells(CellAdapter[] androidCells) {
+        AndroidCells = androidCells;
+    }
 
     public Cell getWinningCell() {
         return WinningCell;
