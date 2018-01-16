@@ -1,20 +1,46 @@
 package app.movie.tutorial.com.rest;
 
-import java.util.List;
-
-import app.movie.tutorial.com.model.GitHubUserResponse;
+import app.movie.tutorial.com.model.Chat;
+import app.movie.tutorial.com.model.Game;
+import app.movie.tutorial.com.model.User;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
 public interface ApiService {
 
-    @GET("users/{username}")
-    Call<GitHubUserResponse> getUser(@Path("username") String username);
-
     @GET("UserManagement/Login/{EmailOrUsername}/{Password}")
     Call<Integer> Login(@Path("EmailOrUsername") String Email, @Path("Password") String Password);
 
-    @GET("users/{username}/followers")
-    Call<List<GitHubUserResponse>> getUserFollowers(@Path("username") String username);
+    @GET("Game/JoinQueue/{EmailOrUsername}")
+    Call<Integer> JoinQueue(@Path("EmailOrUsername") String Email);
+
+    @GET("Game/AttemptToGetGame/{EmailOrUsername}")
+    Call<Game> AttemptToGetGame(@Path("EmailOrUsername") String Email);
+
+    @GET("Game/DestroyGame/{EmailOrUsername}")
+    Call<Integer> DestroyGame(@Path("EmailOrUsername") String Email);
+
+    @GET("Game/Move/{EmailOrUsername}/{Move}")
+    Call<Game> Move(@Path("EmailOrUsername") String Email, @Path("Move") Character move);
+
+    @GET("Game/GetRandomGame")
+    Call<Game> GetTestGame();
+
+    @GET("ChatWindow/GetAllMessages")
+    Call<Chat> GetAllMessages();
+
+    @GET("ChatWindow/AddMessage/{EmailOrUsername}/{input}")
+    Call<Integer> Move(@Path("EmailOrUsername") String Email, @Path("input") String input);
+
+    @GET("UserManagement/GetUserInfo/{EmailOrUsername}")
+    Call<User> GetUserData(@Path("EmailOrUsername") String Email);
+
+    @GET("UserManagement/GetUserGames/{EmailOrUsername}")
+    Call<String> GetUserGames(@Path("EmailOrUsername") String Email);
+
+    @GET("UserManagement/GetUserWins/{EmailOrUsername}")
+    Call<String> GetUserWins(@Path("EmailOrUsername") String Email);
+
+
 }
