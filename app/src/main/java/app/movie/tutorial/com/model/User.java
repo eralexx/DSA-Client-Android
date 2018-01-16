@@ -1,13 +1,21 @@
 package app.movie.tutorial.com.model;
 
-public class User {
+import com.google.gson.annotations.SerializedName;
 
+public class User {
+    @SerializedName("id")
     private int Id = 0;
+    @SerializedName("userName")
     private String UserName = "null";
+    @SerializedName("email")
     private String Email = "null";
+    @SerializedName("password")
     private String Password = "null";
+    @SerializedName("gamesPlayed")
     private int GamesPlayed = 0;
+    @SerializedName("gamesWon")
     private int GamesWon = 0;
+    @SerializedName("imagePath")
     private String imagePath ="";
 
     public String getImagePath() {

@@ -1,15 +1,23 @@
 package app.movie.tutorial.com.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Cell {
 
+     @SerializedName("sizeX")
      int CellType; //0 = normal, 1= objective, 2= player start
+    @SerializedName("posX")
      int PosX;
+    @SerializedName("posY")
      int PosY;
+    @SerializedName("generatorNum")
      int GeneratorNum;
+    @SerializedName("userInCell")
      User UserInCell =  new User();
+    @SerializedName("moves")
      List<Character> Moves =  new ArrayList<>(3);
 
      public Cell(int cellType, int posX, int posY, int generatorNum) {

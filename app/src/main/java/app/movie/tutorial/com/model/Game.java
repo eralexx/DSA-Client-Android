@@ -1,12 +1,33 @@
 package app.movie.tutorial.com.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
 public class Game {
 
+    @SerializedName("id")
     private int Id;
+
+    @SerializedName("nPlayers")
+    private int nPlayers;
+
+    @SerializedName("playerTurn")
+    private User PlayerTurn;
+
+    @SerializedName("players")
+    private List<User> Players;
+
+    @SerializedName("winner")
+    private String Winner;
+
+    @SerializedName("timeStamp")
+    private String timeStamp ;
+
+    @SerializedName("board")
+    private Board Board;
 
     public int getId() {
         return Id;
@@ -64,14 +85,19 @@ public class Game {
         Board = board;
     }
 
-    private int nPlayers;
-    private User PlayerTurn;
-    private List<User> Players;
-    private String Winner;
-    private String timeStamp ;
-    private Board Board;
 
-    public Game( List<User> Players){
+
+    public Game(int id, int nPlayers, User playerTurn, List<User> players, String winner, String timeStamp, app.movie.tutorial.com.model.Board board) {
+        Id = id;
+        this.nPlayers = nPlayers;
+        PlayerTurn = playerTurn;
+        Players = players;
+        Winner = winner;
+        this.timeStamp = timeStamp;
+        Board = board;
+    }
+
+    public Game(List<User> Players){
         this.Players= Players;
         this.nPlayers= Players.size();
         this.timeStamp = new SimpleDateFormat("dd/MM/yyyy - HH:mm").format(Calendar.getInstance().getTime());

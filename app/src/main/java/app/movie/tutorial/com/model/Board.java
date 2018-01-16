@@ -1,16 +1,33 @@
 package app.movie.tutorial.com.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class Board {
 
+    @SerializedName("id")
     private int Id;
+
+    @SerializedName("sizeY")
     private int sizeY;
+
+    @SerializedName("sizeX")
     private int sizeX;
+
+    @SerializedName("users")
     private List<User> Users;
+
+    @SerializedName("cells")
     private Cell[][] Cells;
+
+    @SerializedName("positions")
+    private List<Cell> Positions;
+
+    @SerializedName("winningCell")
+    private Cell WinningCell;
 
     public Cell getPlayerPosition(User player) {
         for (int i=0; i<this.Users.size();i++){
@@ -21,8 +38,7 @@ public class Board {
         return null;
     }
 
-    private List<Cell> Positions;
-    private Cell WinningCell;
+
 
     public Cell getWinningCell() {
         return WinningCell;

@@ -1,10 +1,13 @@
 package app.movie.tutorial.com.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Chat {
 
+    @SerializedName("messages")
     private List<String> Messages = new ArrayList<>(20);
 
 
