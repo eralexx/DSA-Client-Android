@@ -3,16 +3,16 @@ package app.movie.tutorial.com.model;
 
 import com.google.gson.annotations.SerializedName;
 
-class CellAdapter {
+public class CellAdapter {
 
     @SerializedName("item")
     private Cell[] cells;
 
-    public Cell[] getItems() {
+    public Cell[] getCells() {
         return cells;
     }
 
-    public void setItems(Cell[] items) {
+    public void setCells(Cell[] items) {
         this.cells = items;
     }
 
