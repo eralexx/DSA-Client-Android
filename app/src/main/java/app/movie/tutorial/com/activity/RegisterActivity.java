@@ -17,21 +17,19 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-
-public class LoginActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
     private EditText mUser;
     private EditText mPassWord;
+    private EditText mEmail;
     private static Retrofit retrofit = null;
     public static final String BASE_URL = "http://2.152.165.114:80/rest/";
-    private String user ="";
-    private String password = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_register);
     }
 
-    public void ExecuteLogin(View view) {
+    public void ExecuteRegister(View view) {
 
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
@@ -44,27 +42,28 @@ public class LoginActivity extends AppCompatActivity {
 
         mUser = (EditText) findViewById(R.id.user_text);
         mPassWord = (EditText) findViewById(R.id.password_text);
-        user = mUser.getText().toString();
-        password = mPassWord.getText().toString();
+        mEmail =  (EditText) findViewById(R.id.email_text) ;
 
-        if (!user.equals("") || !password.equals("")) {
-            Call<Integer> call = ApiService.Login(mUser.getText().toString(), mPassWord.getText().toString());
+        if (!mEmail.getText().toString().equals("") || !mUser.getText().toString().equals("") || mPassWord.getText().toString().equals("") ) {
+            Call<Integer> call = ApiService.Register(mEmail.getText().toString(),mUser.getText().toString(), mPassWord.getText().toString());
 
             call.enqueue(new Callback<Integer>() {
                 @Override
                 public void onResponse(Call<Integer> call, Response<Integer> response) {
                     try {
-                        Log.i("response", String.valueOf(response));
-                        Log.i("responsebody:    ",String.valueOf(response.body()));
-                        int loginCheck = response.body() != null ? response.body().intValue() : -1;
-                        Log.i("logincheck:    ",String.valueOf(loginCheck));
-                        if (loginCheck == -1) {
-                                showAlertDialog("Warning", "User not found");
-                        } else {
-                            Intent intent = new Intent(getBaseContext(), MainActivity.class);
+
+                        int registerCheck = response.body() != null ? response.body().intValue() : -1;
+
+                        if (registerCheck == -1) {
+                            showAlertDialog("Warning", "User not found");
+                        }
+                        else {
+                            Intent intent = new Intent(getBaseContext(), LoginActivity.class);
                             intent.putExtra("userEmail", mUser.getText().toString());
                             startActivity(intent);
                         }
+                        Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                        startActivity(intent);
                     } catch (Exception ex) {
                         Log.d("1",ex.getMessage());
                         showAlertDialog("Warning", "Login error.");
@@ -76,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d("1",throwable.getMessage());
                     Log.d("2", call.toString());
                     showAlertDialog("Warning", "Conectivity error.");
-                    finish();
+
                 }
             });
         } else {
@@ -84,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
     public void showAlertDialog(String title, String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
         builder.setTitle(title);
         builder.setMessage(message);
         builder.setPositiveButton("OK", null);
@@ -97,10 +96,4 @@ public class LoginActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
-    public void Register(View view) {
-        Intent intent = new Intent(getBaseContext(), RegisterActivity.class);
-        startActivity(intent);
-    }
 }
-

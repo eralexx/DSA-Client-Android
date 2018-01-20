@@ -12,6 +12,9 @@ public interface ApiService {
     @GET("UserManagement/Login/{EmailOrUsername}/{Password}")
     Call<Integer> Login(@Path("EmailOrUsername") String Email, @Path("Password") String Password);
 
+    @GET("UserManagement/Register/{Email}/{Username}/{Password}")
+    Call<Integer> Register(@Path("Email") String Email,@Path("Username") String Username, @Path("Password") String Password);
+
     @GET("Game/JoinQueue/{EmailOrUsername}")
     Call<Integer> JoinQueue(@Path("EmailOrUsername") String Email);
 

@@ -40,8 +40,8 @@
         android:layout_marginRight="60dp"
         android:layout_marginTop="40dp"
         android:width="70dp"
-        android:onClick="FindGame"
-        android:text="@string/find_new_game" />
+        android:onClick="Chat"
+        android:text="Global Chat" />
 
 
     <Button

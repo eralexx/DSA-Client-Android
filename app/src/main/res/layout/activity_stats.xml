@@ -1,9 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.movie.tutorial.com.model.CustomLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="app.movie.tutorial.com.activity.StatsActivity">
+    android:orientation="vertical"
+    android:id ="@+id/statslayout"
+    tools:context="app.movie.tutorial.com.activity.StatsActivity"
+    android:gravity="center">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/titlee"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:text="Your playing stats:"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="217dp"
+        tools:layout_editor_absoluteY="116dp" />
+
+    <TextView
+        android:id="@+id/gamesplayed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="Games Played:     "
+        tools:layout_editor_absoluteX="217dp"
+        tools:layout_editor_absoluteY="116dp" />
+
+    <TextView
+        android:id="@+id/gameswon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="Games won:    "
+        tools:layout_editor_absoluteX="217dp"
+        tools:layout_editor_absoluteY="154dp" />
+
+    <TextView
+        android:id="@+id/winrate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/testsquare6"
+        android:padding="10dp"
+        android:text="Winrate:    "
+        tools:layout_editor_absoluteX="217dp"
+        tools:layout_editor_absoluteY="194dp" />
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recently played:"
+        tools:layout_editor_absoluteX="21dp"
+        tools:layout_editor_absoluteY="246dp" />
+
+    <TextView
+        android:id="@+id/recentlyplayed"
+        android:layout_width="match_parent"
+        android:layout_height="135dp"
+        android:layout_marginTop="10dp" />
+
+</app.movie.tutorial.com.model.CustomLayout>
