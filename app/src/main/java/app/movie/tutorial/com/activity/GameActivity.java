@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -25,22 +26,68 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
 public class GameActivity extends AppCompatActivity {
     String userEmail= "";
     private static Retrofit retrofit = null;
+
      boolean isMyTurn=false;
      boolean gameFound = false;
+     int playerPosition =-1;
+     List<Character> posibleMoves=new ArrayList();
+
     public static final String BASE_URL = "http://2.152.165.114:80/rest/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        isMyTurn=false;
+        gameFound = false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         userEmail = getIntent().getStringExtra("userEmail");
-        TextViewInitialMessage();
-        ExecuteInitialAPICall();
-    }
 
+
+        ExecuteInitialAPICall();
+
+        new Thread(new Runnable() {
+            public void run() {
+                new Timer().scheduleAtFixedRate(new TimerTask(){
+                    @Override
+                    public void run(){
+                        if (isMyTurn!=true) {
+                            RefreshGameAPICall();
+                        }
+                    }
+                },5000,5000);
+            }
+        }).start();
+    }
+    private void ExecuteFinalAPICall() {
+        if (retrofit == null) {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        }
+        ApiService ApiService = retrofit.create(ApiService.class);
+
+        Call<Integer> Call = ApiService.DestroyGame(userEmail);
+        Call.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                try {
+                    Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                    intent.putExtra("userEmail", userEmail);
+                    startActivity(intent);
+                } catch (Exception ex) {
+                    Log.d("1",ex.getMessage());
+                }
+            }
+            @Override
+            public void onFailure(Call<Integer> call, Throwable throwable) {
+                Log.d("1",throwable.getMessage());
+                Log.d("2", call.toString());
+            }
+        });
+    }
     private void ExecuteInitialAPICall() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
@@ -50,53 +97,22 @@ public class GameActivity extends AppCompatActivity {
         }
         ApiService ApiService = retrofit.create(ApiService.class);
 
-        Call<Game> Call = ApiService.GetTestGame();
-        Call.enqueue(new Callback<Game>() {
+        Call<Integer> Call = ApiService.JoinQueue(userEmail);
+        Call.enqueue(new Callback<Integer>() {
             @Override
-            public void onResponse(Call<Game> call, Response<Game> response) {
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
                 try {
-                    isMyTurn=false;
-                    gameFound = true;
-                    Game retrievedGame = response.body();
-                    DrawBoard(retrievedGame.getBoard().getAndroidCells());
-                    DrawFinish(retrievedGame.getBoard().getWinningCell());
-                    DrawUsers(retrievedGame.getBoard().getPositions());
-                    boolean gameOver = ManageWin(retrievedGame.getWinner());
-                    if (gameOver==false) {
-                        ManageTurn(retrievedGame.getPlayerTurn().getEmail());
+                    if (response.body()==0){
+                        TextViewInitialMessage();
                     }
-                    else{
-                        Thread.sleep(3000);
-                        Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                        intent.putExtra("userEmail", userEmail);
-                        startActivity(intent);
-                    }
-
-                    SetListener();
-                    new Thread(new Runnable() {
-                        public void run() {
-                            new Timer().scheduleAtFixedRate(new TimerTask(){
-                                @Override
-                                public void run(){
-                                    if (isMyTurn!=true) {
-                                        RefreshGameAPICall();
-                                    }
-                                }
-                            },0,2000);
-                        }
-                    }).start();
-
                 } catch (Exception ex) {
                     Log.d("1",ex.getMessage());
-                    showAlertDialog("Warning", "Login error.");
                 }
             }
             @Override
-            public void onFailure(Call<Game> call, Throwable throwable) {
+            public void onFailure(Call<Integer> call, Throwable throwable) {
                 Log.d("1",throwable.getMessage());
                 Log.d("2", call.toString());
-                showAlertDialog("Warning", "Conectivity error.");
-                finish();
             }
         });
     }
@@ -114,34 +130,16 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Game> call, Response<Game> response) {
                 try {
-                    isMyTurn=false;
-                    Game retrievedGame = response.body();
-                    DrawUsers(retrievedGame.getBoard().getPositions());
-                    boolean gameOver = ManageWin(retrievedGame.getWinner());
-                    if (gameOver==false) {
-                        ManageTurn(retrievedGame.getPlayerTurn().getEmail());
-                    }
-                    else{
-                        Thread.sleep(3000);
-                        Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                        intent.putExtra("userEmail", userEmail);
-                        startActivity(intent);
-                    }
-                    TextViewInitialMessage();
-                    SetListener();
-
+                    isMyTurn = false;
 
                 } catch (Exception ex) {
                     Log.d("1",ex.getMessage());
-                    showAlertDialog("Warning", "Login error.");
                 }
             }
             @Override
             public void onFailure(Call<Game> call, Throwable throwable) {
                 Log.d("1",throwable.getMessage());
                 Log.d("2", call.toString());
-                showAlertDialog("Warning", "Conectivity error.");
-                finish();
             }
         });
     }
@@ -160,49 +158,54 @@ public class GameActivity extends AppCompatActivity {
             public void onResponse(Call<Game> call, Response<Game> response) {
                 try {
                     isMyTurn=false;
+                    ClearBoard();
                     Game retrievedGame = response.body();
+                    DrawBoard(retrievedGame.getBoard().getAndroidCells());
+                    DrawFinish(retrievedGame.getBoard().getWinningCell());
+                    for(int i= 0; i<retrievedGame.getPlayers().size(); i++)
+                    {
+                        if (userEmail.equals(retrievedGame.getPlayers().get(i).getEmail())){
+                         playerPosition= i;
+                        }
+                    }
+                    posibleMoves= retrievedGame.getBoard().getPositions().get(playerPosition).getMoves();
                     DrawUsers(retrievedGame.getBoard().getPositions());
                     boolean gameOver = ManageWin(retrievedGame.getWinner());
                     if (gameOver==false) {
                         ManageTurn(retrievedGame.getPlayerTurn().getEmail());
                     }
-                    else{
-                        Thread.sleep(3000);
-                        Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                        intent.putExtra("userEmail", userEmail);
-                        startActivity(intent);
-                    }
-                    TextViewInitialMessage();
                     SetListener();
-                } catch (Exception ex) {
+                }
+                catch (Exception ex) {
                     Log.d("1",ex.getMessage());
-                    showAlertDialog("Warning", "Login error.");
                 }
             }
             @Override
             public void onFailure(Call<Game> call, Throwable throwable) {
                 Log.d("1",throwable.getMessage());
                 Log.d("2", call.toString());
-                showAlertDialog("Warning", "Conectivity error.");
-                finish();
             }
         });
     }
 
     private boolean ManageWin(String winner) {
-        TextView infoTextView = (TextView) findViewById(R.id.textView);
+        TextView infoTextView = (TextView) findViewById(R.id.textView400);
         if (winner !=null && !winner.isEmpty()){
             if (winner.equals(userEmail)){
+                ClearBoard();
                 infoTextView.setText("YOU WON!!!");
                 infoTextView.setTextColor(getResources().getColor(R.color.green));
                 infoTextView.setTextSize(35);
+                ExecuteFinalAPICall();
+                return true;
             }
             else{
+                ClearBoard();
                 infoTextView.setText("You lost...");
                 infoTextView.setTextColor(getResources().getColor(R.color.orange));
                 infoTextView.setTextSize(30);
+                return true;
             }
-            return true;
         }
         else return false;
     }
@@ -211,42 +214,66 @@ public class GameActivity extends AppCompatActivity {
         View view = (LinearLayout) findViewById(R.id.gridLayout);
         view.setClickable(true);
 
-
         view.setOnTouchListener(new OnSwipeTouchListener(GameActivity.this) {
             @Override
             public void onSwipeRight() {
+                TextView infoTextView = (TextView) findViewById(R.id.textView400);
                 if (isMyTurn==true) {
-                    APIMoveCall('E');
-                    TextView infoTextView = (TextView) findViewById(R.id.textView);
-                    infoTextView.setText("You moved Right. It's your opponent's turn");
-                    infoTextView.setTextSize(20);
+                    if (posibleMoves.contains('E')) {
+                        APIMoveCall('E');
+                        infoTextView.setText("You moved Right. It's your opponent's turn");
+                        infoTextView.setTextSize(20);
+                    }
+                    else{
+                        infoTextView.setText("That move is invalid");
+                        infoTextView.setTextSize(20);
+                    }
                 }
             }
             @Override
             public void onSwipeLeft() {
+                TextView infoTextView = (TextView) findViewById(R.id.textView400);
                 if (isMyTurn==true) {
+                    if (posibleMoves.contains('W')) {
                     APIMoveCall('W');
-                    TextView infoTextView = (TextView) findViewById(R.id.textView);
                     infoTextView.setText("You moved Left. It's your opponent's turn");
                     infoTextView.setTextSize(20);
+                    }
+                    else{
+                        infoTextView.setText("That move is invalid");
+                        infoTextView.setTextSize(20);
+                    }
                 }
             }
             @Override
             public void onSwipeBottom() {
+                TextView infoTextView = (TextView) findViewById(R.id.textView400);
                 if (isMyTurn==true) {
-                    APIMoveCall('S');
-                    TextView infoTextView = (TextView) findViewById(R.id.textView);
-                    infoTextView.setText("You moved Down. It's your opponent's turn");
-                    infoTextView.setTextSize(20);
+                    if (posibleMoves.contains('S')) {
+                        APIMoveCall('S');
+                        infoTextView.setText("You moved Down. It's your opponent's turn");
+                        infoTextView.setTextSize(20);
+                    }
+                    else{
+                        infoTextView.setText("That move is invalid");
+                        infoTextView.setTextSize(20);
+                    }
                 }
             }
             @Override
             public void onSwipeTop() {
+                TextView infoTextView = (TextView) findViewById(R.id.textView400);
                 if (isMyTurn==true) {
-                    APIMoveCall('N');
-                    TextView infoTextView = (TextView) findViewById(R.id.textView);
-                    infoTextView.setText("You moved Up. It's your opponent's turn");
-                    infoTextView.setTextSize(20);
+                    if (posibleMoves.contains('N')) {
+
+                        APIMoveCall('N');
+                        infoTextView.setText("You moved Up. It's your opponent's turn");
+                        infoTextView.setTextSize(20);
+                    }
+                    else{
+                        infoTextView.setText("That move is invalid");
+                        infoTextView.setTextSize(20);
+                    }
                 }
             }
 
@@ -257,12 +284,20 @@ public class GameActivity extends AppCompatActivity {
     private void ManageTurn(String email) {
         if( email.equals(userEmail)){
             this.isMyTurn=true;
+            TextView infoTextView = (TextView) findViewById(R.id.textView400);
+            infoTextView.setText("It's your time to move!");
+            infoTextView.setTextSize(25);
         }
-        else this.isMyTurn=false;
+        else {
+            this.isMyTurn=false;
+            TextView infoTextView = (TextView) findViewById(R.id.textView400);
+            infoTextView.setText("It's your opponent's turn!");
+            infoTextView.setTextSize(25);
+        }
     }
 
     private void TextViewInitialMessage() {
-        TextView infoTextView = (TextView) findViewById(R.id.textView);
+        TextView infoTextView = (TextView) findViewById(R.id.textView400);
         infoTextView.setText("Looking for a game...");
         infoTextView.setTextSize(40);
     }
@@ -334,5 +369,60 @@ public class GameActivity extends AppCompatActivity {
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+    private void ClearBoard() {
+        TextView tv;
+        tv=(TextView) findViewById(R.id.tv11);
+        tv.setBackgroundResource(android.R.color.transparent);
+        tv=(TextView) findViewById(R.id.tv12);
+        tv.setBackgroundResource(android.R.color.transparent);
+        tv=(TextView) findViewById(R.id.tv13);
+        tv.setBackgroundResource(android.R.color.transparent);
+        tv=(TextView) findViewById(R.id.tv14);
+        tv.setBackgroundResource(android.R.color.transparent);
+        tv=(TextView) findViewById(R.id.tv15);
+        tv.setBackgroundResource(android.R.color.transparent);
+        tv=(TextView) findViewById(R.id.tv21);
+        tv.setBackgroundResource(android.R.color.transparent);
+        tv=(TextView) findViewById(R.id.tv22);
+        tv.setBackgroundResource(android.R.color.transparent);
+        tv=(TextView) findViewById(R.id.tv23);
+        tv.setBackgroundResource(android.R.color.transparent);
+        tv=(TextView) findViewById(R.id.tv24);
+        tv.setBackgroundResource(android.R.color.transparent);
+        tv=(TextView) findViewById(R.id.tv25);
+        tv.setBackgroundResource(android.R.color.transparent);
+        tv=(TextView) findViewById(R.id.tv31);
+        tv.setBackgroundResource(android.R.color.transparent);
+        tv=(TextView) findViewById(R.id.tv32);
+        tv.setBackgroundResource(android.R.color.transparent);
+        tv=(TextView) findViewById(R.id.tv33);
+        tv.setBackgroundResource(android.R.color.transparent);
+        tv=(TextView) findViewById(R.id.tv34);
+        tv.setBackgroundResource(android.R.color.transparent);
+        tv=(TextView) findViewById(R.id.tv35);
+        tv.setBackgroundResource(android.R.color.transparent);
+        tv=(TextView) findViewById(R.id.tv41);
+        tv.setBackgroundResource(android.R.color.transparent);
+        tv=(TextView) findViewById(R.id.tv42);
+        tv.setBackgroundResource(android.R.color.transparent);
+        tv=(TextView) findViewById(R.id.tv43);
+        tv.setBackgroundResource(android.R.color.transparent);
+        tv=(TextView) findViewById(R.id.tv44);
+        tv.setBackgroundResource(android.R.color.transparent);
+        tv=(TextView) findViewById(R.id.tv45);
+        tv.setBackgroundResource(android.R.color.transparent);
+        tv=(TextView) findViewById(R.id.tv51);
+        tv.setBackgroundResource(android.R.color.transparent);
+        tv=(TextView) findViewById(R.id.tv52);
+        tv.setBackgroundResource(android.R.color.transparent);
+        tv=(TextView) findViewById(R.id.tv53);
+        tv.setBackgroundResource(android.R.color.transparent);
+        tv=(TextView) findViewById(R.id.tv54);
+        tv.setBackgroundResource(android.R.color.transparent);
+        tv=(TextView) findViewById(R.id.tv55);
+        tv.setBackgroundResource(android.R.color.transparent);
+
+
     }
 }
