@@ -10,7 +10,6 @@ public class Chat {
     @SerializedName("messages")
     private List<String> Messages = new ArrayList<>(20);
 
-
     public void AddMessage(String NewMessage) {
         try {
             if (NewMessage != null)

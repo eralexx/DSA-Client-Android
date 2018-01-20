@@ -11,12 +11,13 @@
 
 
     <GridLayout
-        android:layout_width="570dp"
         android:id="@+id/xd"
-        android:layout_height="570dp"
-        android:layout_margin="15dp"
+        android:layout_width="590dp"
+        android:layout_height="590dp"
+        android:layout_margin="5dp"
         android:layout_weight="1"
-        android:background="@drawable/testsquare5">
+        android:background="@drawable/testsquare5"
+        android:padding="10dp">
 
 
         <TextView
@@ -147,11 +148,6 @@
             android:layout_row="1"
             android:background="@color/colorBlack"
             android:visibility="visible" />
-        <View
-            android:id="@+id/imageCheckBorder"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/testsquare5" />
 
         <TextView
             android:id="@+id/textView25"

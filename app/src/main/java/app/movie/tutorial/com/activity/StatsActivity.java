@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class StatsActivity extends AppCompatActivity {
     String userEmail= "";
     private static Retrofit retrofit = null;
-    public static final String BASE_URL = "http://10.0.2.2:8081/rest/";
+    public static final String BASE_URL = "http://2.152.165.114:80/rest/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

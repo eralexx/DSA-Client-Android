@@ -22,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mUser;
     private EditText mPassWord;
     private static Retrofit retrofit = null;
-    public static final String BASE_URL = "http://10.0.2.2:8081/rest/";
+    public static final String BASE_URL = "http://2.152.165.114:80/rest/";
     private String user ="";
     private String password = "";
     @Override
