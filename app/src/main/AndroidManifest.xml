@@ -21,7 +21,8 @@
         <activity android:name=".activity.StatsActivity" />
         <activity android:name=".activity.ProfileActivity" />
         <activity android:name=".activity.GameActivity" />
-        <activity android:name=".activity.RegisterActivity"></activity>
+        <activity android:name=".activity.RegisterActivity" />
+        <activity android:name=".activity.ChatActivity"></activity>
     </application>
 
 </manifest>

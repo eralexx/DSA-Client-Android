@@ -9,4 +9,5 @@
     <string name="find_new_game">Find new game</string>
     <string name="profile">Profile</string>
     <string name="textview">TextView</string>
+    <string name="global_chat">Global Chat</string>
 </resources>

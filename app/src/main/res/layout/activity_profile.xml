@@ -6,60 +6,60 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="app.movie.tutorial.com.activity.ProfileActivity"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:gravity="center">
 
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="320dp"
-        android:layout_height="320dp"
-        android:layout_marginLeft="148dp"
-        android:layout_marginTop="80dp"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
         android:background="@drawable/testsquare5"
+        android:scaleType="fitCenter"
         android:visibility="visible"
-        app:srcCompat="@drawable/back"
-        android:scaleType="fitCenter"/>
+        app:srcCompat="@drawable/back" />
 
     <TextView
         android:id="@+id/userNameTV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_column="0"
-        android:layout_margin="48dp"
+        android:layout_marginTop="20dp"
         android:layout_row="3"
         android:textAlignment="center"
         android:textAllCaps="true"
-        android:textSize="36sp"
+        android:textSize="18sp"
         android:visibility="visible" />
 
     <TextView
         android:id="@+id/idTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="102dp"
+        android:layout_marginTop="100dp"
         android:text="Internal server Id :"
-        android:textSize="24sp"
+        android:textSize="12sp"
         android:visibility="visible" />
 
     <TextView
         android:id="@+id/emailTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="80dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="134dp"
         android:text="Email:"
-        android:textSize="24sp"
+        android:textSize="12sp"
         android:visibility="visible" />
 
     <TextView
         android:id="@+id/passwordTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="80dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="100dp"
         android:text="Current password:"
-        android:textSize="24sp"
+        android:textSize="12sp"
         android:visibility="visible" />
 
 </LinearLayout>

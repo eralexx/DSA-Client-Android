@@ -69,4 +69,9 @@ public class MainActivity extends AppCompatActivity{
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+    public void Chat(View view) {
+        Intent intent = new Intent(getBaseContext(), ChatActivity.class);
+        intent.putExtra("userEmail", userEmail);
+        startActivity(intent);
+    }
 }

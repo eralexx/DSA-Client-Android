@@ -13,58 +13,62 @@
         android:id="@+id/user_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="25dp"
         android:background="@drawable/back"
         android:gravity="center_horizontal"
         android:text="@string/welcome_back_to_the_maze"
-        android:textSize="36sp" />
+        android:textSize="18sp" />
 
     <Button
         android:id="@+id/button1"
+        style="@android:style/Widget.Holo.Button.Toggle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginRight="60dp"
-        android:layout_marginTop="40dp"
-        android:width="70dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:width="18dp"
         android:onClick="FindGame"
         android:text="@string/find_new_game" />
 
     <Button
         android:id="@+id/button5"
+        style="@android:style/Widget.Holo.Button.Small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginRight="60dp"
-        android:layout_marginTop="40dp"
-        android:width="70dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:width="18dp"
         android:onClick="Chat"
-        android:text="Global Chat" />
+        android:text="@string/global_chat" />
 
 
     <Button
         android:id="@+id/button2"
+        style="@android:style/Widget.Holo.Button.Small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginRight="60dp"
-        android:layout_marginTop="40dp"
-        android:width="70dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:width="35dp"
         android:onClick="Profile"
         android:text="@string/profile" />
 
     <Button
         android:id="@+id/button3"
+        style="@android:style/Widget.Holo.Button.Small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginRight="60dp"
-        android:layout_marginTop="40dp"
-        android:width="70dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:width="35dp"
         android:onClick="GameHistory"
         android:text="@string/game_history" />
 
@@ -73,9 +77,9 @@
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="50dp"
-        android:width="70dp"
+        android:layout_margin="25dp"
+        android:width="35dp"
         android:background="@android:drawable/ic_delete"
         android:onClick="Logout"
-        android:text="X" />
+        android:text="" />
 </app.movie.tutorial.com.model.CustomLayout>
