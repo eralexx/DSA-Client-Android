@@ -24,6 +24,9 @@ public interface ApiService {
     @GET("Game/DestroyGame/{EmailOrUsername}")
     Call<Integer> DestroyGame(@Path("EmailOrUsername") String Email);
 
+    @GET("UserManagement/ChangeImage/{Email}/{imageUrl}")
+    Call<Integer> ChangeImage(@Path("Email") String UserEmail, @Path("imageUrl") String imageUrl);
+
     @GET("Game/Move/{EmailOrUsername}/{Move}")
     Call<Game> Move(@Path("EmailOrUsername") String Email, @Path("Move") Character move);
 
