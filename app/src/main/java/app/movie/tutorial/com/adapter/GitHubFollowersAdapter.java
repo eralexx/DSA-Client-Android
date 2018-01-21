@@ -40,8 +40,8 @@ public class GitHubFollowersAdapter extends RecyclerView.Adapter<GitHubFollowers
 
         public FollowerViewHolder(View v) {
             super(v);
-            moviesLayout = (LinearLayout) v.findViewById(R.id.movies_layout);
-            userImage = (ImageView) v.findViewById(R.id.movie_image);
+            moviesLayout = (LinearLayout) v.findViewById(R.id.profile_layout);
+            userImage = (ImageView) v.findViewById(R.id.imageView);
             userName = (TextView) v.findViewById(R.id.title);
         }
     }

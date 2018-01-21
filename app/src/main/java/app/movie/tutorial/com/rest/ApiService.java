@@ -12,6 +12,9 @@ public interface ApiService {
     @GET("UserManagement/Login/{EmailOrUsername}/{Password}")
     Call<Integer> Login(@Path("EmailOrUsername") String Email, @Path("Password") String Password);
 
+    @GET("UserManagement/ChangePassword/{EmailOrUsername}/{Password}")
+    Call<Integer> ChangePassword(@Path("EmailOrUsername") String Email, @Path("Password") String Password);
+
     @GET("UserManagement/Register/{Email}/{Username}/{Password}")
     Call<Integer> Register(@Path("Email") String Email,@Path("Username") String Username, @Path("Password") String Password);
 
@@ -37,7 +40,7 @@ public interface ApiService {
     Call<Chat> GetAllMessages();
 
     @GET("ChatWindow/AddMessage/{EmailOrUsername}/{input}")
-    Call<Integer> Move(@Path("EmailOrUsername") String Email, @Path("input") String input);
+    Call<Integer> AddMessage(@Path("EmailOrUsername") String Email, @Path("input") String input);
 
     @GET("UserManagement/GetUserInfo/{EmailOrUsername}")
     Call<User> GetUserData(@Path("EmailOrUsername") String Email);

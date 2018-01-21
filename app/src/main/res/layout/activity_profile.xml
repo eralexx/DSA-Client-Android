@@ -7,14 +7,14 @@
     android:orientation="vertical"
     tools:context="app.movie.tutorial.com.activity.ProfileActivity"
     android:background="@color/background"
-    android:gravity="center">
+    android:gravity="center"
+    android:id="@+id/profile_layout">
 
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="160dp"
         android:layout_height="160dp"
-        android:background="@drawable/testsquare5"
         android:scaleType="fitCenter"
         android:visibility="visible"
         app:srcCompat="@drawable/back" />
@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_column="0"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:layout_row="3"
         android:textAlignment="center"
         android:textAllCaps="true"
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_marginRight="102dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="20dp"
         android:text="Internal server Id :"
         android:textSize="12sp"
         android:visibility="visible" />
@@ -47,7 +47,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:layout_marginRight="134dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="100dp"
         android:text="Email:"
         android:textSize="12sp"
         android:visibility="visible" />
@@ -56,11 +57,63 @@
         android:id="@+id/passwordTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginRight="100dp"
+        android:layout_marginBottom="50dp"
+        android:layout_marginRight="94dp"
         android:text="Current password:"
         android:textSize="12sp"
         android:visibility="visible" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/password_text"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:width="110dp"
+            app:layout_constraintTop_toBottomOf="@+id/password_tag" />
+
+        <Button
+            android:id="@+id/button_password"
+            style="@android:style/Widget.Holo.Button.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="0dp"
+            android:width="110dp"
+            android:onClick="ChangePassword"
+            android:text="Change Password" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/image_text"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:width="110dp"
+            app:layout_constraintTop_toBottomOf="@+id/password_tag" />
+
+        <Button
+            android:id="@+id/button_image"
+            style="@android:style/Widget.Holo.Button.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="0dp"
+            android:width="110dp"
+            android:onClick="ChangeImage"
+            android:text="Change Image Url" />
+    </LinearLayout>
 
 </LinearLayout>
 

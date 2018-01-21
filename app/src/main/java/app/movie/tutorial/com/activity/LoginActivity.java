@@ -76,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d("1",throwable.getMessage());
                     Log.d("2", call.toString());
                     showAlertDialog("Warning", "Conectivity error.");
-                    finish();
+
                 }
             });
         } else {
@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
         builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                finish();
+
             }
         });
         AlertDialog dialog = builder.create();

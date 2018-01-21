@@ -2,6 +2,9 @@ package app.movie.tutorial.com.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +12,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +26,7 @@ import app.movie.tutorial.com.model.Cell;
 import app.movie.tutorial.com.model.CellAdapter;
 import app.movie.tutorial.com.model.Game;
 import app.movie.tutorial.com.model.OnSwipeTouchListener;
+import app.movie.tutorial.com.model.User;
 import app.movie.tutorial.com.rest.ApiService;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -169,7 +176,7 @@ public class GameActivity extends AppCompatActivity {
                         }
                     }
                     posibleMoves= retrievedGame.getBoard().getPositions().get(playerPosition).getMoves();
-                    DrawUsers(retrievedGame.getBoard().getPositions());
+                    DrawUsers(retrievedGame.getBoard().getPositions(), retrievedGame.getPlayers());
                     boolean gameOver = ManageWin(retrievedGame.getWinner());
                     if (gameOver==false) {
                         ManageTurn(retrievedGame.getPlayerTurn().getEmail());
@@ -201,9 +208,9 @@ public class GameActivity extends AppCompatActivity {
             }
             else{
                 ClearBoard();
-                infoTextView.setText("You lost...");
+                infoTextView.setText("You lost... better luck next game :)");
                 infoTextView.setTextColor(getResources().getColor(R.color.orange));
-                infoTextView.setTextSize(30);
+                infoTextView.setTextSize(25);
                 return true;
             }
         }
@@ -222,11 +229,11 @@ public class GameActivity extends AppCompatActivity {
                     if (posibleMoves.contains('E')) {
                         APIMoveCall('E');
                         infoTextView.setText("You moved Right. It's your opponent's turn");
-                        infoTextView.setTextSize(20);
+                        infoTextView.setTextSize(18);
                     }
                     else{
                         infoTextView.setText("That move is invalid");
-                        infoTextView.setTextSize(20);
+                        infoTextView.setTextSize(18);
                     }
                 }
             }
@@ -237,11 +244,11 @@ public class GameActivity extends AppCompatActivity {
                     if (posibleMoves.contains('W')) {
                     APIMoveCall('W');
                     infoTextView.setText("You moved Left. It's your opponent's turn");
-                    infoTextView.setTextSize(20);
+                    infoTextView.setTextSize(18);
                     }
                     else{
                         infoTextView.setText("That move is invalid");
-                        infoTextView.setTextSize(20);
+                        infoTextView.setTextSize(18);
                     }
                 }
             }
@@ -252,11 +259,11 @@ public class GameActivity extends AppCompatActivity {
                     if (posibleMoves.contains('S')) {
                         APIMoveCall('S');
                         infoTextView.setText("You moved Down. It's your opponent's turn");
-                        infoTextView.setTextSize(20);
+                        infoTextView.setTextSize(18);
                     }
                     else{
                         infoTextView.setText("That move is invalid");
-                        infoTextView.setTextSize(20);
+                        infoTextView.setTextSize(18);
                     }
                 }
             }
@@ -286,27 +293,27 @@ public class GameActivity extends AppCompatActivity {
             this.isMyTurn=true;
             TextView infoTextView = (TextView) findViewById(R.id.textView400);
             infoTextView.setText("It's your time to move!");
-            infoTextView.setTextSize(25);
+            infoTextView.setTextSize(18);
         }
         else {
             this.isMyTurn=false;
             TextView infoTextView = (TextView) findViewById(R.id.textView400);
             infoTextView.setText("It's your opponent's turn!");
-            infoTextView.setTextSize(25);
+            infoTextView.setTextSize(15);
         }
     }
 
     private void TextViewInitialMessage() {
         TextView infoTextView = (TextView) findViewById(R.id.textView400);
         infoTextView.setText("Looking for a game...");
-        infoTextView.setTextSize(40);
+        infoTextView.setTextSize(20);
     }
 
-    private void DrawUsers(List<Cell> positions) {
+    private void DrawUsers(List<Cell> positions, List<User> players) {
         String VIEW_NAME ="";
         TextView currentTV;
         boolean p1 =false;
-        for(Cell cell: positions) {
+        /*for(Cell cell: positions) {
 
             VIEW_NAME = "tv" + String.valueOf(cell.getPosX()+1) + String.valueOf(cell.getPosY()+1);
             currentTV = (TextView) findViewById(getResources().getIdentifier(VIEW_NAME, "id", getPackageName()));
@@ -317,7 +324,33 @@ public class GameActivity extends AppCompatActivity {
             else{
                 currentTV.setBackgroundResource(R.drawable.p2);
             }
+        }*/
+        for (int i=0; i<positions.size(); i++){
+            VIEW_NAME = "tv" + String.valueOf(positions.get(i).getPosX()+1) + String.valueOf(positions.get(i).getPosY()+1);
+            currentTV = (TextView) findViewById(getResources().getIdentifier(VIEW_NAME, "id", getPackageName()));
+            setTVBackgroundFromUrl(currentTV, players.get(i).getImagePath());
         }
+    }
+
+    private void setTVBackgroundFromUrl(TextView currentTV, String imagePath) {
+        Picasso.with(this).load(imagePath).into(new Target(){
+
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                currentTV.setBackground(new BitmapDrawable(bitmap));
+            }
+
+            @Override
+            public void onBitmapFailed(final Drawable errorDrawable) {
+                Log.d("TAG", "FAILED");
+            }
+
+            @Override
+            public void onPrepareLoad(final Drawable placeHolderDrawable) {
+                Log.d("TAG", "Prepare Load");
+            }
+        });
+
     }
 
     private void DrawFinish(Cell winningCell) {

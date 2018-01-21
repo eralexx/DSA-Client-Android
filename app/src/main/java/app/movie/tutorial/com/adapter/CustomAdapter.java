@@ -23,7 +23,7 @@ public class CustomAdapter extends ArrayAdapter<DataModel> implements View.OnCli
 
     // View lookup cache
     private static class ViewHolder {
-        TextView username;
+
         TextView content;
 
 
@@ -62,7 +62,7 @@ public class CustomAdapter extends ArrayAdapter<DataModel> implements View.OnCli
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.row_item, parent, false);
-            viewHolder.username = (TextView) convertView.findViewById(R.id.username);
+
             viewHolder.content = (TextView) convertView.findViewById(R.id.content);
 
 
@@ -76,7 +76,6 @@ public class CustomAdapter extends ArrayAdapter<DataModel> implements View.OnCli
 
 
 
-        viewHolder.username.setText(dataModel.getusername());
         viewHolder.content.setText(dataModel.getcontent());
 
         // Return the completed view to render on screen

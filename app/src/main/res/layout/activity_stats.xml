@@ -13,7 +13,7 @@
         android:id="@+id/titlee"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="30dp"
         android:text="Your playing stats:"
         android:textSize="20sp"
         tools:layout_editor_absoluteX="217dp"
@@ -39,9 +39,10 @@
 
     <TextView
         android:id="@+id/winrate"
+        style="@android:style/Widget.Holo.TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="50dp"
         android:background="@drawable/testsquare6"
         android:padding="10dp"
         android:text="Winrate:    "
@@ -58,8 +59,10 @@
 
     <TextView
         android:id="@+id/recentlyplayed"
+        style="@android:style/Widget.Holo.TextView"
         android:layout_width="match_parent"
-        android:layout_height="135dp"
-        android:layout_marginTop="10dp" />
+        android:layout_height="188dp"
+        android:layout_marginTop="10dp"
+        android:textSize="9sp" />
 
 </app.movie.tutorial.com.model.CustomLayout>

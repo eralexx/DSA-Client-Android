@@ -5,18 +5,10 @@ package app.movie.tutorial.com.model;
  */
 
 public class DataModel {
-    String username;
     String content;
 
-
-    public DataModel(String username, String content) {
-        this.username = username;
+    public DataModel(String content) {
         this.content = content;
-
-    }
-
-    public String getusername() {
-        return username;
     }
 
     public String getcontent() {

@@ -6,14 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/back"
+    android:maxHeight="295dp"
     android:orientation="vertical"
     tools:context="app.movie.tutorial.com.activity.GameActivity">
 
 
     <GridLayout
         android:id="@+id/xd"
-        android:layout_width="300dp"
-        android:layout_height="305dp"
+        android:layout_width="295dp"
+        android:layout_height="295dp"
+        android:layout_marginBottom="80dp"
         android:layout_marginLeft="38dp"
         android:layout_marginTop="15dp"
         android:layout_weight="1"
@@ -701,14 +703,15 @@
     <TextView
         android:id="@+id/textView400"
         android:layout_width="match_parent"
-        android:layout_height="89dp"
-        android:layout_marginBottom="80dp"
+        android:layout_height="82dp"
+        android:layout_marginBottom="30dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:layout_weight="1"
         android:background="@drawable/testsquare6"
         android:padding="6dp"
+        android:textSize="20dp"
         android:visibility="visible" />
 
 </LinearLayout>
