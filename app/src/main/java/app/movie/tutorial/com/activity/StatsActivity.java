@@ -98,7 +98,7 @@ public class StatsActivity extends AppCompatActivity {
         tv =  (TextView) findViewById(R.id.gameswon);
         tv.setText(tv.getText() +String.valueOf(gamesWon));
         tv = (TextView) findViewById(R.id.winrate);
-        tv.setText(tv.getText() + String.valueOf((double)gamesWon/(double)gamesPlayed));
+        tv.setText(tv.getText() + String.valueOf(((double)gamesWon/gamesPlayed)*100));
     }
 
     private void printWonGame(String game) {

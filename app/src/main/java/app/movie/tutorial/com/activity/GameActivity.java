@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -36,22 +37,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class GameActivity extends AppCompatActivity {
     String userEmail= "";
     private static Retrofit retrofit = null;
-
-     boolean isMyTurn=false;
-     boolean gameFound = false;
-     int playerPosition =-1;
-     List<Character> posibleMoves=new ArrayList();
+    boolean isMyTurn=false;
+    int playerPosition =-1;
+    List<Character> posibleMoves=new ArrayList();
 
     public static final String BASE_URL = "http://2.152.165.114:80/rest/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isMyTurn=false;
-        gameFound = false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         userEmail = getIntent().getStringExtra("userEmail");
-
-
         ExecuteInitialAPICall();
 
         new Thread(new Runnable() {
@@ -63,10 +59,11 @@ public class GameActivity extends AppCompatActivity {
                             RefreshGameAPICall();
                         }
                     }
-                },5000,5000);
+                },5000,1000);
             }
         }).start();
     }
+
     private void ExecuteFinalAPICall() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
@@ -164,6 +161,10 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Game> call, Response<Game> response) {
                 try {
+                    LinearLayout jja = (LinearLayout) findViewById(R.id.linlaHeaderProgress);
+                    jja.setVisibility(View.GONE);
+                    GridLayout xd= (GridLayout)findViewById(R.id.xd);
+                    xd.setVisibility(View.VISIBLE);
                     isMyTurn=false;
                     ClearBoard();
                     Game retrievedGame = response.body();
@@ -172,7 +173,7 @@ public class GameActivity extends AppCompatActivity {
                     for(int i= 0; i<retrievedGame.getPlayers().size(); i++)
                     {
                         if (userEmail.equals(retrievedGame.getPlayers().get(i).getEmail())){
-                         playerPosition= i;
+                            playerPosition= i;
                         }
                     }
                     posibleMoves= retrievedGame.getBoard().getPositions().get(playerPosition).getMoves();
@@ -242,9 +243,9 @@ public class GameActivity extends AppCompatActivity {
                 TextView infoTextView = (TextView) findViewById(R.id.textView400);
                 if (isMyTurn==true) {
                     if (posibleMoves.contains('W')) {
-                    APIMoveCall('W');
-                    infoTextView.setText("You moved Left. It's your opponent's turn");
-                    infoTextView.setTextSize(18);
+                        APIMoveCall('W');
+                        infoTextView.setText("You moved Left. It's your opponent's turn");
+                        infoTextView.setTextSize(18);
                     }
                     else{
                         infoTextView.setText("That move is invalid");

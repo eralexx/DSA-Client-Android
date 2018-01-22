@@ -10,6 +10,25 @@
     android:orientation="vertical"
     tools:context="app.movie.tutorial.com.activity.GameActivity">
 
+    <LinearLayout
+        android:id="@+id/linlaHeaderProgress"
+        android:layout_width="310dp"
+        android:layout_height="295dp"
+        android:layout_marginBottom="80dp"
+        android:layout_marginLeft="38dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:visibility="visible">
+
+        <ProgressBar
+            android:id="@+id/pbHeaderProgress"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="98dp"
+            android:layout_height="103dp"
+            android:visibility="visible" />
+    </LinearLayout>
 
     <GridLayout
         android:id="@+id/xd"
@@ -20,7 +39,8 @@
         android:layout_marginTop="15dp"
         android:layout_weight="1"
         android:background="@drawable/testsquare5"
-        android:padding="5dp">
+        android:padding="5dp"
+        android:visibility="gone">
 
 
         <TextView
