@@ -2,24 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/login_layout"
+    android:background="@color/colorGreyLight"
+    android:backgroundTint="@color/colorGreyLight"
+    android:gravity="center"
     android:orientation="vertical"
-    tools:context="app.movie.tutorial.com.activity.LoginActivity"
-    android:gravity="center">
+    tools:context="app.movie.tutorial.com.activity.LoginActivity">
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/the_maze_game"
-        android:textSize="22sp"
+        android:textSize="28sp"
         android:textStyle="italic" />
 
     <TextView
         android:id="@+id/user_tag"
-        android:layout_width="200dp"
+        android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:text="@string/user"
@@ -28,7 +30,7 @@
 
     <EditText
         android:id="@+id/user_text"
-        android:layout_width="200dp"
+        android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
         android:width="110dp"
@@ -36,7 +38,7 @@
 
     <TextView
         android:id="@+id/password_tag"
-        android:layout_width="200dp"
+        android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:text="@string/password"
         android:textColor="#FF0000"
@@ -44,7 +46,7 @@
 
     <EditText
         android:id="@+id/password_text"
-        android:layout_width="200dp"
+        android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
         android:width="1100dp"
@@ -53,11 +55,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/buttonLogin"
+            style="@android:style/Widget.Holo.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="25dp"
@@ -69,6 +72,7 @@
 
         <Button
             android:id="@+id/buttonRegister"
+            style="@android:style/Widget.Holo.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="25dp"

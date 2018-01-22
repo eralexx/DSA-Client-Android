@@ -8,8 +8,8 @@
     <color name="colorAccentDark">#00B482</color>
     <color name="green">#008000</color>
     <color name="colorBlack">#555555</color>
-    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorWhite">#ffffff</color>
     <color name="colorGrey">#707070</color>
-    <color name="colorGreyLight">#8A8A8A</color>
+    <color name="colorGreyLight">#8d8d8d</color>
     <color name="background">#ededed</color>
 </resources>

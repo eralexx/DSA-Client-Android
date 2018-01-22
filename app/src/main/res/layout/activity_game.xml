@@ -5,7 +5,7 @@
     android:id="@+id/gridLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/back"
+    android:background="@color/colorGreyLight"
     android:maxHeight="295dp"
     android:orientation="vertical"
     tools:context="app.movie.tutorial.com.activity.GameActivity">

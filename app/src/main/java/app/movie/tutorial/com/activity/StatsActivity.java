@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -77,7 +78,6 @@ public class StatsActivity extends AppCompatActivity {
                     showAlertDialog("Warning", "Login error.");
                 }
             }
-
             @Override
             public void onFailure(Call<String> call, Throwable throwable) {
                 Log.d("1", throwable.getMessage());
@@ -98,7 +98,9 @@ public class StatsActivity extends AppCompatActivity {
         tv =  (TextView) findViewById(R.id.gameswon);
         tv.setText(tv.getText() +String.valueOf(gamesWon));
         tv = (TextView) findViewById(R.id.winrate);
-        tv.setText(tv.getText() + String.valueOf(((double)gamesWon/gamesPlayed)*100));
+
+        DecimalFormat numberFormat = new DecimalFormat("#.00");
+        tv.setText(tv.getText() + String.valueOf(numberFormat.format(((double)gamesWon/gamesPlayed)*100))+ "%");
     }
 
     private void printWonGame(String game) {
@@ -142,8 +144,6 @@ public class StatsActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
     public void showAlertDialog(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(StatsActivity.this);
